@@ -23,7 +23,7 @@
     <button :disabled="disabled">Sign Up</button>
 </template>
 
-<script setup>
+<!-- <script setup>
 import {  ref } from 'vue';
 const disabled = ref(true)
 const password = ref('')
@@ -38,5 +38,27 @@ const onChangePassword = (event) => {
 const onChangePasswordRepeat = (event) => {
     passwordRepeat.value = event.target.value
     disabled.value = password.value !== passwordRepeat.value
+}
+</script> -->
+
+<script>
+export default {
+    data(){
+        return {
+            disabled : true,
+            password: '',
+            passwordRepeat:'',
+        }
+    },
+    methods: {
+        onChangePassword(event) {
+            this.password = event.target.value
+            this.disabled = this.password !== this.passwordRepeat
+        },
+        onChangePasswordRepeat(event) {
+            this.passwordRepeat = event.target.value
+            this.disabled = this.password !== this.passwordRepeat
+        }
+    }
 }
 </script>
