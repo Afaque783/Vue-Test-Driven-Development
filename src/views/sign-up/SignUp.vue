@@ -2,7 +2,7 @@
     <h1>Sign Up</h1>
     <div>
         <label for="Username">Username</label>
-        <input id="Username" type="text">       
+        <input id="Username" type="text" >       
     </div>
 
     <div>
@@ -12,22 +12,30 @@
 
     <div>
         <label for="password">Password</label>
-        <input id="password" type="password" @input="onChangePassword" >
+        <input id="password" type="password" @input="(event) => (password = event.target.value)" >
     </div>
 
     <div>
         <label for="passwordRepeat">Password Repeat</label>
-        <input id="passwordRepeat" type="password" @input="onChangePasswordRepeat">
+        <input 
+        id="passwordRepeat" 
+        type="password" 
+        @input="(event) => (passwordRepeat = event.target.value)">
     </div>
 
-    <button :disabled="disabled">Sign Up</button>
+    <button :disabled="isDisabled">Sign Up</button>
 </template>
 
-<!-- <script setup>
-import {  ref } from 'vue';
+<script setup>
+import {  ref,computed } from 'vue';
 const disabled = ref(true)
 const password = ref('')
 const passwordRepeat = ref('')
+
+
+const isDisabled = computed(() => {
+    return password.value || passwordRepeat.value ? password.value !== passwordRepeat.value : true
+})
 
 
 const onChangePassword = (event) => {
@@ -39,9 +47,11 @@ const onChangePasswordRepeat = (event) => {
     passwordRepeat.value = event.target.value
     disabled.value = password.value !== passwordRepeat.value
 }
-</script> -->
 
-<script>
+
+</script>
+
+<!-- <script>
 export default {
     data(){
         return {
@@ -61,4 +71,4 @@ export default {
         }
     }
 }
-</script>
+</script> -->
