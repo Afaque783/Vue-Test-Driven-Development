@@ -1,11 +1,12 @@
-vi.mock('axios')
 
-const { render, screen } = require("@testing-library/vue");
+const { render, screen, waitFor } = require("@testing-library/vue");
+import 'whatwg-fetch';
 import { describe, expect, it, vi } from 'vitest';
-// const { describe, it, expect } = require("vitest");
 import SignUp from './SignUp.vue'
 import userEvent from '@testing-library/user-event';
-import axios from 'axios';
+import {setupServer} from 'msw/node'
+import { HttpResponse, http } from 'msw';
+
 
 
 describe('Sign Up', () => {
@@ -15,10 +16,6 @@ describe('Sign Up', () => {
         expect(header).toBeInTheDocument()
     })
 
-    // it('Has UserName Input', () => {
-    //     const {container } = render(SignUp)
-    //     expect(container.querySelector('input')).toBeInTheDocument()
-    // });
 
     it('Has UserName Input', () => {
         render(SignUp)
@@ -64,6 +61,14 @@ describe('Sign Up', () => {
     })
     describe('when user submits form', () => {
         it('Sends username, email, password to the backend', async () => {
+            let requestBody;
+            const server = setupServer(
+                http.post('/api/v1/users', async ({request}) => {
+                    requestBody = await request.json()
+                    return HttpResponse.json({})
+                })
+            )
+            server.listen()
             const user = userEvent.setup()
             render(SignUp)
             const usernameInput = screen.getByLabelText('Username')
@@ -76,11 +81,17 @@ describe('Sign Up', () => {
             await user.type(passwordRepeatInput,'P4ssword')
             const button = screen.getByRole('button', {name:'Sign Up'});
             await user.click(button)
-            expect(axios.post).toHaveBeenCalledWith('/api/v1/users', {
-                username: 'user1',
-                email:'user1@gmail.com',
-                password: 'P4ssword'
+
+            await waitFor(() => {
+                expect(requestBody).toEqual({
+                    username: 'user1',
+                    email: 'user1@gmail.com',
+                    password: 'P4ssword'
+                })
             })
+
+
+            
         });
     })
 })

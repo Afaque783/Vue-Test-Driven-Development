@@ -44,6 +44,13 @@ const formState = reactive({
 const submit = () => {
     const {passwordRepeat, ...body} = formState
     axios.post('/api/v1/users', body)
+    // fetch(window.location.origin +  '/api/v1/users', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(body)
+    // })
 }
 
 const isDisabled = computed(() => {
