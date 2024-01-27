@@ -2,17 +2,20 @@
     <h1>Sign Up</h1>
     <div>
         <label for="Username">Username</label>
-        <input id="Username" type="text" >       
+        <input id="Username" type="text" v-model="username" >       
     </div>
 
     <div>
         <label for="email">E-mail</label>
-        <input id="email" type="email">
+        <input id="email" type="email" v-model="email">
     </div>
 
     <div>
         <label for="password">Password</label>
-        <input id="password" type="password" @input="(event) => (password = event.target.value)" >
+        <input 
+        id="password"
+        type="password" 
+        v-model="password">
     </div>
 
     <div>
@@ -20,33 +23,34 @@
         <input 
         id="passwordRepeat" 
         type="password" 
-        @input="(event) => (passwordRepeat = event.target.value)">
+        v-model="passwordRepeat">
     </div>
 
-    <button :disabled="isDisabled">Sign Up</button>
+    <button :disabled="isDisabled" @click="submit">Sign Up</button>
 </template>
 
 <script setup>
+import axios from 'axios';
 import {  ref,computed } from 'vue';
-const disabled = ref(true)
+const username = ref('')
+const email = ref('')
 const password = ref('')
 const passwordRepeat = ref('')
 
+const submit = () => {
+    axios.post('/api/v1/users', {
+        username: username.value,
+        email: email.value,
+        password: password.value
+    })
+}
 
 const isDisabled = computed(() => {
     return password.value || passwordRepeat.value ? password.value !== passwordRepeat.value : true
+    // return password.value == '' || password.value != passwordRepeat.value
 })
 
 
-const onChangePassword = (event) => {
-    password.value = event.target.value
-    disabled.value = password.value !== passwordRepeat.value
-}
-
-const onChangePasswordRepeat = (event) => {
-    passwordRepeat.value = event.target.value
-    disabled.value = password.value !== passwordRepeat.value
-}
 
 
 </script>
@@ -60,14 +64,9 @@ export default {
             passwordRepeat:'',
         }
     },
-    methods: {
-        onChangePassword(event) {
-            this.password = event.target.value
-            this.disabled = this.password !== this.passwordRepeat
-        },
-        onChangePasswordRepeat(event) {
-            this.passwordRepeat = event.target.value
-            this.disabled = this.password !== this.passwordRepeat
+    computed:{
+        isDisabled() {
+            return (this.password || this.passwordRepeat) ? this.password !== this.passwordRepeat : true
         }
     }
 }
