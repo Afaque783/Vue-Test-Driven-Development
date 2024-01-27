@@ -57,6 +57,9 @@ const isDisabled = computed(() => {
 
 <!-- <script>
 export default {
+
+import axios from 'axios';
+
     data(){
         return {
             disabled : true,
@@ -64,6 +67,15 @@ export default {
             passwordRepeat:'',
         }
     },
+    methods: {
+        submit() {
+            axios.post('/api/v1/users' {
+                username: this.username,
+                email: this.email,
+                password: this.password
+            })
+        }
+    }
     computed:{
         isDisabled() {
             return (this.password || this.passwordRepeat) ? this.password !== this.passwordRepeat : true
