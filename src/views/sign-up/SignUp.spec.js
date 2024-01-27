@@ -1,7 +1,8 @@
 const { render, screen } = require("@testing-library/vue");
-import { expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 // const { describe, it, expect } = require("vitest");
 import SignUp from './SignUp.vue'
+import userEvent from '@testing-library/user-event';
 
 
 describe('Sign Up', () => {
@@ -47,4 +48,15 @@ describe('Sign Up', () => {
         expect(screen.getByRole('button', {name: 'Sign Up'})).toBeDisabled()
     });
 
+    describe('When user sets same value for password inputs', () => {
+        it('Enables Button', async () => {
+            const user = userEvent.setup()
+            render(SignUp)
+            const passwordInput = screen.getByLabelText('Password')
+            const passwordRepeatInput = screen.getByLabelText('Password Repeat')
+            await user.type(passwordInput,'P4ssword')
+            await user.type(passwordRepeatInput,'P4ssword')
+            expect(screen.getByRole('button', {name:'Sign Up'})).toBeEnabled()
+        });
+    })
 })
