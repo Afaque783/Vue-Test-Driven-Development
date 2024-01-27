@@ -1,32 +1,34 @@
 <template>
-    <h1>Sign Up</h1>
-    <div>
-        <label for="Username">Username</label>
-        <input id="Username" type="text" v-model="formState.username" >       
-    </div>
+    <form @submit.prevent="submit" >
+        <h1>Sign Up</h1>
+        <div>
+            <label for="Username">Username</label>
+            <input id="Username" type="text" v-model="formState.username" >       
+        </div>
 
-    <div>
-        <label for="email">E-mail</label>
-        <input id="email" type="email" v-model="formState.email">
-    </div>
+        <div>
+            <label for="email">E-mail</label>
+            <input id="email" type="email" v-model="formState.email">
+        </div>
 
-    <div>
-        <label for="password">Password</label>
-        <input 
-        id="password"
-        type="password" 
-        v-model="formState.password">
-    </div>
+        <div>
+            <label for="password">Password</label>
+            <input 
+            id="password"
+            type="password" 
+            v-model="formState.password">
+        </div>
 
-    <div>
-        <label for="passwordRepeat">Password Repeat</label>
-        <input 
-        id="passwordRepeat" 
-        type="password" 
-        v-model="formState.passwordRepeat">
-    </div>
+        <div>
+            <label for="passwordRepeat">Password Repeat</label>
+            <input 
+            id="passwordRepeat" 
+            type="password" 
+            v-model="formState.passwordRepeat">
+        </div>
 
-    <button :disabled="isDisabled" @click="submit">Sign Up</button>
+        <button :disabled="isDisabled" >Sign Up</button>
+    </form>
 </template>
 
 <script setup>
@@ -42,6 +44,7 @@ const formState = reactive({
 
 
 const submit = () => {
+    
     const {passwordRepeat, ...body} = formState
     axios.post('/api/v1/users', body)
     // fetch(window.location.origin +  '/api/v1/users', {
