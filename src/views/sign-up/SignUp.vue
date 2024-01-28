@@ -93,11 +93,13 @@ import axios from 'axios';
                 disabled : true,
                 password: '',
                 passwordRepeat:'',
-            }
+            },
+            apiProgress : false
         }
     },
     methods: {
         submit() {
+            this.apiProgress = true
             const {passwordRepeat, ...body} = this.formState
             axios.post('/api/v1/users', body)
         }
