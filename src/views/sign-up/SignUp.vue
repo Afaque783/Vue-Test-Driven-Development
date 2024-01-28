@@ -36,7 +36,7 @@
             </div>
             
             <div class="text-center">
-                <button  :disabled="isDisabled" class="btn btn-primary" >Sign Up</button>
+                <button  :disabled="isDisabled || apiProgress" class="btn btn-primary" >Sign Up</button>
             </div>
         </div>
     </form>
@@ -45,7 +45,7 @@
 
 <script setup>
 import axios from 'axios';
-import {  reactive,computed } from 'vue';
+import {  reactive,computed, ref } from 'vue';
 
 const formState = reactive({
     username : '',
@@ -54,9 +54,11 @@ const formState = reactive({
     passwordRepeat: ''
 })
 
+const apiProgress = ref(false)
+
 
 const submit = () => {
-    
+    apiProgress.value = true
     const {passwordRepeat, ...body} = formState
     axios.post('/api/v1/users', body)
     // fetch(window.location.origin +  '/api/v1/users', {
