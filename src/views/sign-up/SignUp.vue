@@ -1,34 +1,46 @@
 <template>
-    <form @submit.prevent="submit" >
-        <h1>Sign Up</h1>
-        <div>
-            <label for="Username">Username</label>
-            <input id="Username" type="text" v-model="formState.username" >       
+    <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+    <form class="card" @submit.prevent="submit" >
+        <div class="card-header">
+            <h1>Sign Up</h1>
         </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="Username" class="form-label">Username</label>
+                <input id="Username" type="text" class="form-control" v-model="formState.username" >       
+            </div>
 
-        <div>
-            <label for="email">E-mail</label>
-            <input id="email" type="email" v-model="formState.email">
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input id="email" type="email" class="form-control" v-model="formState.email">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                id="password"
+                type="password" 
+                v-model="formState.password"
+                class="form-control"
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="passwordRepeat" class="form-label">Password Repeat</label>
+                <input 
+                id="passwordRepeat" 
+                type="password" 
+                v-model="formState.passwordRepeat"
+                class="form-control"
+                >
+            </div>
+            
+            <div class="text-center">
+                <button  :disabled="isDisabled" class="btn btn-primary" >Sign Up</button>
+            </div>
         </div>
-
-        <div>
-            <label for="password">Password</label>
-            <input 
-            id="password"
-            type="password" 
-            v-model="formState.password">
-        </div>
-
-        <div>
-            <label for="passwordRepeat">Password Repeat</label>
-            <input 
-            id="passwordRepeat" 
-            type="password" 
-            v-model="formState.passwordRepeat">
-        </div>
-
-        <button :disabled="isDisabled" >Sign Up</button>
     </form>
+    </div>
 </template>
 
 <script setup>
