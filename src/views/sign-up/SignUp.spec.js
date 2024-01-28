@@ -94,7 +94,7 @@ describe('Sign Up', () => {
         
     
 
-    describe('when there is ongoing API Call', () => {
+    describe('when there is an ongoing API Call', () => {
         it('Does not Allow Clicking the button', async () => {
             let counter = 0
             const server = setupServer(
@@ -124,6 +124,6 @@ describe('Sign Up', () => {
 
             server.close()
             })
-        })
     })
+})
 })
